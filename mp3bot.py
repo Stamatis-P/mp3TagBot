@@ -48,7 +48,7 @@ async def edit_tags(ctx):
                 case "-N" | "--track-total":
                     audiofile.tag.track_num = (count, num_attachments)
                 case "-Y" | "--year":
-                    audiofile.tag.release_date = eyed3.core.Date(int(args_list[i+1]))
+                    audiofile.tag.recording_date = eyed3.core.Date(int(args_list[i+1]))
                 case "-G" | "--genre":
                     audiofile.tag.genre = args_list[i + 1]
                 case "-c" | "--comment":
@@ -88,7 +88,7 @@ Edit the tags of attached mp3 files with [args] \n Options for args are: \n
 `-a STRING, --artist STRING`: Set the artist name. \n
 `-A STRING, --album STRING`: Set the album name. \n
 `-b STRING, --album-artist STRING`: Set the album artist name. \n
-`-Y INT, --y INT`: Set the year. \n
+`-Y INT, --year INT`: Set the year. \n
 `-G STRING, --genre STRING`: Set the genre. \n
 `-c STRING, --comment STRING`: Set the comment. \n
 `-N, --track-total`: Set each track's count and total track count. Ordered by upload order. \n
