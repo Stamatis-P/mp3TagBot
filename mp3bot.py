@@ -32,6 +32,7 @@ async def clear_tags(ctx):
 
         audiofile.tag.save(new_mp3.filename)
         await ctx.respond(new_mp3)
+        os.remove(new_mp3.filename)
 
 
 @bot.command
@@ -51,7 +52,7 @@ async def edit_tags(ctx):
         if not check_mp3(attachment):
             await ctx.respond("Please make sure all attachments are mp3s.")
             continue
-            
+
         count = count + 1
         new_mp3 = create_new_mp3(attachment)
         audiofile = eyed3.load(new_mp3.filename)
