@@ -21,7 +21,7 @@ async def clear_tags(ctx):
         return
 
     for attachment in ctx.event.message.attachments:
-        if check_mp3(attachment):
+        if not check_mp3(attachment):
             await ctx.respond("Please make sure all attachments are mp3s.")
             continue
 
