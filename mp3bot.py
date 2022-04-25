@@ -41,7 +41,7 @@ async def edit_tags(ctx):
                     audiofile.tag.title = args_list[i+1]
                 case "-a" | "--artist":
                     audiofile.tag.artist = args_list[i+1]
-                case "-A" | "--Album":
+                case "-A" | "--album":
                     audiofile.tag.album = args_list[i+1]
                 case "-b" | "--album-artist":
                     audiofile.tag.album_artist = args_list[i+1]
@@ -79,6 +79,30 @@ async def clear_tags(ctx):
 
     audiofile.tag.save(new_mp3.filename)
     await ctx.respond(new_mp3)
+
+
+
+HELP_MESSAGE = """
+Edit the tags of attached mp3 files with [args] \n Options for args are: \n
+`-t STRING, --title STRING`: Set the track title. \n
+`-a STRING, --artist STRING`: Set the artist name. \n
+`-A STRING, --album STRING`: Set the album name. \n
+`-b STRING, --album-artist STRING`: Set the album artist name. \n
+`-Y INT, --y INT`: Set the year. \n
+`-G STRING, --genre STRING`: Set the genre. \n
+`-c STRING, --comment STRING`: Set the comment. \n
+`-N, --track-total`: Set each track's count and total track count. Ordered by upload order. \n
+"""
+
+
+@bot.command
+@lightbulb.command("help", "Gets help for bot commands")
+@lightbulb.implements(lightbulb.PrefixCommand)
+async def help(ctx: lightbulb.Context) -> None:
+    embed = hikari.Embed(title="Help Command", colour=0x2495bd)
+    embed.add_field(";clear", "Clear the tags on the attached mp3 files.")
+    embed.add_field(";edit '[args]'", HELP_MESSAGE)
+    await ctx.respond(embed)
 
 
 # return True if there are attachments to the message
