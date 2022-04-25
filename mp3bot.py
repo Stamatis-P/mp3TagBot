@@ -13,6 +13,28 @@ bot = lightbulb.BotApp(token="OTY4MTYxNTc4ODcwNTIxODc3.Yma0uw.l6V0k6ghM2wv61Nm_t
 
 
 @bot.command
+@lightbulb.command("clear", "Clear an mp3's tags")
+@lightbulb.implements(lightbulb.PrefixCommand)
+async def clear_tags(ctx):
+    if not check_attachments(ctx):
+        await ctx.respond("Please include an mp3 attachment.")
+        return
+
+    for attachment in ctx.event.message.attachments:
+        if check_mp3(attachment):
+            await ctx.respond("Please make sure all attachments are mp3s.")
+            continue
+
+        new_mp3 = create_new_mp3(attachment)
+        audiofile = eyed3.load(new_mp3.filename)
+
+        audiofile.tag.clear()
+
+        audiofile.tag.save(new_mp3.filename)
+        await ctx.respond(new_mp3)
+
+
+@bot.command
 @lightbulb.option("args", "all arguments to pass to mp3 tag editor, wrapped in quotes")
 @lightbulb.command("edit", "Edit an mp3's tags")
 @lightbulb.implements(lightbulb.PrefixCommand)
@@ -26,14 +48,13 @@ async def edit_tags(ctx):
 
     count = 0
     for attachment in ctx.event.message.attachments:
-        count = count + 1
         if not check_mp3(attachment):
             await ctx.respond("Please make sure all attachments are mp3s.")
-            return
-
+            continue
+            
+        count = count + 1
         new_mp3 = create_new_mp3(attachment)
         audiofile = eyed3.load(new_mp3.filename)
-
 
         for i in range(len(args_list)):
             match args_list[i]:
@@ -57,29 +78,6 @@ async def edit_tags(ctx):
         audiofile.tag.save(new_mp3.filename)
         await ctx.respond(new_mp3)
         os.remove(new_mp3.filename)
-
-
-@bot.command
-@lightbulb.command("clear", "Clear an mp3's tags")
-@lightbulb.implements(lightbulb.PrefixCommand)
-async def clear_tags(ctx):
-    if not check_attachments(ctx):
-        await ctx.respond("Please include an mp3 attachment.")
-        return
-
-    for attachment in ctx.event.message.attachments:
-        if not check_mp3(attachment):
-            await ctx.respond("Please make sure all attachments are mp3s.")
-            return
-
-    new_mp3 = create_new_mp3(attachment)
-    audiofile = eyed3.load(new_mp3.filename)
-
-    audiofile.tag.clear()
-
-    audiofile.tag.save(new_mp3.filename)
-    await ctx.respond(new_mp3)
-
 
 
 HELP_MESSAGE = """
