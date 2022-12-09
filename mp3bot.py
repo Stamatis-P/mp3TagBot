@@ -6,7 +6,7 @@ import os
 import hikari
 import lightbulb
 
-bot = lightbulb.BotApp(token="OTY4MTYxNTc4ODcwNTIxODc3.Yma0uw.l6V0k6ghM2wv61Nm_teeENXOnvA",
+bot = lightbulb.BotApp(token="",
                        default_enabled_guilds=(966828214745972787),  # test server ID
                        prefix=";",
                        help_class=None)
